@@ -1,13 +1,15 @@
 package com.nasritech.footballleague.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import com.nasritech.footballleague.models.User;
 import com.nasritech.footballleague.models.LoginUser;
+import com.nasritech.footballleague.models.Team;
+import com.nasritech.footballleague.models.User;
 import com.nasritech.footballleague.repositories.UserRepository;
 
 @Service
@@ -67,5 +69,18 @@ public class UserService {
 		user.setPassword(hashedPassword);
 		return userRepo.save(user);
 
+	}
+	
+	public List<User> getUsers(){
+		return userRepo.findAll();
+	}
+	
+	public Optional<User> getUser(Long id) {
+		Optional<User> user = userRepo.findById(id);
+		return user;
+	}
+	
+	public void saveUser(User user) {
+		userRepo.save(user);
 	}
 }

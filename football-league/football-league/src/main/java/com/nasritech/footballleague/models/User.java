@@ -1,14 +1,20 @@
 package com.nasritech.footballleague.models;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -36,8 +42,8 @@ public class User {
 		    private String password;
 		     
 		    @Transient
-		    @NotEmpty(message="Confirm Password is required!")
-		    @Size(min=8, max=128, message="Confirm Password must be between 8 and 128 characters")
+		    //@NotEmpty(message="Confirm Password is required!")
+		    //@Size(min=8, max=128, message="Confirm Password must be between 8 and 128 characters")
 		    private String confirmPassword;
 		    
 		    @NotNull(message = "Phone number cannot be null")
@@ -59,9 +65,12 @@ public class User {
 		    @DateTimeFormat(pattern="yyyy-MM-dd")
 		    private Date updatedAt;
 		   
-		    //@ManyToOne(fetch = FetchType.LAZY)  
-		    //@JoinColumn(name="team_id")
-		    //private Team team;
+		   
+		    @OneToMany(mappedBy = "user" , fetch = FetchType.LAZY) 
+		    private List<Team> teams;
+		    
+		    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+		    private Address userAddress;
 		    
 		    public User() {
 		    	
@@ -150,5 +159,23 @@ public class User {
 			return updatedAt;
 		}
 
+		public List<Team> getTeams() {
+			return teams;
+		}
+
+		public void setTeams(List<Team> teams) {
+			this.teams = teams;
+		}
+
+		public Address getUserAddress() {
+			return userAddress;
+		}
+
+		public void setUserAddress(Address userAddress) {
+			this.userAddress = userAddress;
+		}
+
+		
+		
 	
 }
