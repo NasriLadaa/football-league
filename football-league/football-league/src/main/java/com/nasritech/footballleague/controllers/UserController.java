@@ -81,8 +81,10 @@ public class UserController {
 		Team team = teamService.findTeam(team_id).get();
 		
 		team.getPlayers().add(player);
-		
 		teamService.saveTeam(team);
+		
+		//player.getTeams().add(team);
+		//playerService.savePlayer(player);
 	}
 	
 	@GetMapping("/add/player")
