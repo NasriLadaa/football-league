@@ -1,6 +1,7 @@
 package com.nasritech.footballleague.models;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -48,6 +51,14 @@ public class Team {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn( name = "user_id")
 	private User user;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+	name = "teams_players",
+	joinColumns = @JoinColumn(name = "team_id"),
+	inverseJoinColumns = @JoinColumn(name = "player_id")
+	)
+	private List<Player> players;
 	
 	public Team() {
 		
@@ -116,7 +127,16 @@ public class Team {
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
     
+	
     
 	
 	

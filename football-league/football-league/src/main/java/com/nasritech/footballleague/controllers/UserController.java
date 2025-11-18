@@ -1,7 +1,6 @@
 package com.nasritech.footballleague.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nasritech.footballleague.models.Address;
+import com.nasritech.footballleague.models.Player;
 import com.nasritech.footballleague.models.Team;
 import com.nasritech.footballleague.models.User;
 import com.nasritech.footballleague.services.AddressService;
+import com.nasritech.footballleague.services.PlayerService;
 import com.nasritech.footballleague.services.TeamService;
 import com.nasritech.footballleague.services.UserService;
 
@@ -27,6 +28,9 @@ public class UserController {
 	
 	@Autowired 
 	private AddressService addressService;
+	
+	@Autowired
+	private PlayerService playerService;
 	
 	@GetMapping("/all")
 	public List<User> getAllUsers(){
@@ -69,4 +73,21 @@ public class UserController {
 		addressService.saveAddress(address);
 	}
 	
+	@GetMapping("/add/team/player")
+	public void addPlayerTeam() {
+		long player_id = 1;
+		long team_id = 2;
+		Player player = playerService.findPlayer(player_id).get();
+		Team team = teamService.findTeam(team_id).get();
+		
+		team.getPlayers().add(player);
+		
+		teamService.saveTeam(team);
+	}
+	
+	@GetMapping("/add/player")
+	public void addPlayer() {
+		Player player = new Player("Ronaldo" , "Da Lima");		
+		playerService.savePlayer(player);
+	}
 }

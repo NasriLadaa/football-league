@@ -1,5 +1,7 @@
 package com.nasritech.footballleague.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +16,9 @@ public class TeamService {
 	
 	public void saveTeam(Team team) {
 		teamRepo.save(team);
+	}
+	
+	public Optional<Team> findTeam(long id) {
+		return teamRepo.findById(id);
 	}
 }
